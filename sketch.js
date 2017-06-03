@@ -18,15 +18,14 @@ function draw() {
     
     s.update();
     s.checkDeath();
-    f.show();
+    s.show();
     if(s.checkFood(f.x,f.y))
     {
-        s.bLength = s.bLength + 1;
         s.body.unshift(f.x,f.y)
         f.reset();
     }
-    s.show();
-    console.log(s);
+    
+    f.show();
 }
 
 function reset(){
@@ -62,16 +61,12 @@ function showBody(element, index,array) {
             rect(element.x,element.y,scl,scl);
         }
 
-function Snake() {
+function Snake() {   
     this.update = function() {
         this.x = this.x + (this.xspeed*scl);
         this.y = this.y + (this.yspeed*scl);
-       
+        this.body.shift();
         this.body.unshift(createVector(this.x,this.y));        
-        if(this.bLength < this.body.length)
-        {        
-            this.body.shift();
-        }
     }
     
     this.pos = function(xi,yi)
@@ -116,9 +111,9 @@ function Snake() {
     
     this.x = startSnakeX;
     this.y = startSnakeY;
-    this.bLength = 1;
     this.body = [];
     this.body.push(createVector(this.x,this.y));
+    this.length = 1;
     this.dir(1,0);
 }
 
@@ -127,12 +122,12 @@ function Food() {
     this.y;
     
     this.reset = function(){
-        this.x = floor((random()*(canvasWidth/scl)-1)*scl);
-        this.y = floor((random()*(canvasHeight/scl)-1)*scl);
+        this.x = floor(random()*(canvasWidth/scl)*scl);
+        this.y = floor(random()*(canvasHeight/scl)*scl);
     }
     
     this.show = function(){
-        fill(0,200,200);
+        fill(0,100,100);
         rect(f.x, f.y, scl,scl);
     }
     
