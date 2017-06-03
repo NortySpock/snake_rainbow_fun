@@ -1,17 +1,15 @@
 var s;
-var speedmult = 2;
+var speedmult = 1;
 var canvasWidth = 500;
 var canvasHeight = 500;
 var startSnakeX = 100;
 var startSnakeY = 100;
-var snakeBodySize = 10;
+var snakeSegmentSize = 10;
+var f;
 
 
 function setup() {
-      createCanvas(canvasWidth, canvasHeight);
-      
-      frameRate(30)
-      s = new Snake();
+    reset();
 }
 
 function draw() {
@@ -19,6 +17,13 @@ function draw() {
     s.update();
     s.checkDeath();
     s.show();
+}
+
+function reset(){
+      createCanvas(canvasWidth, canvasHeight);
+      
+      frameRate(5)
+      s = new Snake();
 }
 
 function keyPressed(){
@@ -42,19 +47,21 @@ function keyPressed(){
 
  
 
-function Snake() {
-    this.x = startSnakeX;
-    this.y = startSnakeY;
-    this.length = 1;
-    
+function Snake() {   
     this.update = function() {
-        this.x = this.x + this.xspeed;
-        this.y = this.y + this.yspeed;
+        this.x = this.x + (this.xspeed*snakeSegmentSize);
+        this.y = this.y + (this.yspeed*snakeSegmentSize);
+    }
+    
+    this.pos = function(xi,yi)
+    {
+        this.x = xi;
+        this.y = yi;
     }
     
     this.show = function() {
         fill(255);
-        rect(this.x,this.y,10,10);
+        rect(this.x,this.y,snakeSegmentSize,snakeSegmentSize);
     }
     
     this.dir = function(xi, yi)
@@ -63,11 +70,13 @@ function Snake() {
         this.yspeed = yi*speedmult;
     }
     
-    this.dir(-1,0);
-    
     this.checkDeath = function()
     {
-        if(this.x > canvasWidth - snakeBodySize || this.x < 0)
+        if(this.x > canvasWidth - snakeSegmentSize || this.x < 0)
+        {
+            this.ondeath();
+        }
+        if(this.y > canvasHeight - snakeSegmentSize || this.y < 0)
         {
             this.ondeath();
         }
@@ -75,9 +84,22 @@ function Snake() {
     
     this.ondeath = function() 
     {
+        frameRate(1);
         fill(255,0,0);
         ellipse(this.x, this.y, 100);        
-        s.dir(0,0);
+        reset();
     }
+    
+    this.checkFood = function() {
+        
+    }
+    
+    this.x = startSnakeX;
+    this.y = startSnakeY;
+    this.length = 1;
+    this.dir(-1,0);
+}
 
+function Food(){
+    
 }
