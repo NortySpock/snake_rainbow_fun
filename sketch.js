@@ -21,7 +21,7 @@ function draw() {
     snake.show();
     if(snake.checkFood(food.x,food.y))
     {
-        snake.body.unshift(food.x,food.y)
+        snake.body.unshift(createVector(food.x,food.y))
         food.reset();
     }
     
@@ -61,12 +61,18 @@ function showBody(element, index,array) {
             rect(element.x,element.y,scl,scl);
         }
 
-function Snake() {   
+function Snake() {
     this.update = function() {
+        console.log(print(this.body.toString()))
         this.x = this.x + (this.xspeed*scl);
         this.y = this.y + (this.yspeed*scl);
         this.body.shift();
         this.body.unshift(createVector(this.x,this.y));        
+    }
+
+    this.pos = function()
+    {
+        return createVector(this.x, this.y);
     }
     
     this.pos = function(xi,yi)
