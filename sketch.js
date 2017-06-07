@@ -66,7 +66,7 @@ function Snake() {
         console.log(print(this.body.toString()))
         this.x = this.x + (this.xspeed*scl);
         this.y = this.y + (this.yspeed*scl);
-        this.body.shift();
+        this.body.pop();
         this.body.unshift(createVector(this.x,this.y));        
     }
 
