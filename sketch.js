@@ -1,5 +1,5 @@
-var s;
-var f;
+var snake;
+var food;
 var speedmult = 1;
 var canvasWidth = 200;
 var canvasHeight = 200;
@@ -16,43 +16,43 @@ function setup() {
 function draw() {
     background(50);
     
-    s.update();
-    s.checkDeath();
-    s.show();
-    if(s.checkFood(f.x,f.y))
+    snake.update();
+    snake.checkDeath();
+    snake.show();
+    if(snake.checkFood(food.x,food.y))
     {
-        s.body.unshift(f.x,f.y)
-        f.reset();
+        snake.body.unshift(food.x,food.y)
+        food.reset();
     }
     
-    f.show();
+    food.show();
 }
 
 function reset(){
       createCanvas(canvasWidth, canvasHeight);
       
       frameRate(5)
-      s = new Snake();
-      f = new Food();
-      f.reset();
+      snake = new Snake();
+      food = new Food();
+      food.reset();
 }
 
 function keyPressed(){
     if (keyCode === UP_ARROW)
     {
-        s.dir(0, -1);
+        snake.dir(0, -1);
     }
     if (keyCode === DOWN_ARROW)
     {
-        s.dir(0, 1);
+        snake.dir(0, 1);
     }
     if (keyCode === LEFT_ARROW)
     {
-        s.dir(-1, 0);
+        snake.dir(-1, 0);
     }
     if (keyCode === RIGHT_ARROW)
     {
-        s.dir(1, 0);
+        snake.dir(1, 0);
     }
 }
 
@@ -128,7 +128,7 @@ function Food() {
     
     this.show = function(){
         fill(0,100,100);
-        rect(f.x, f.y, scl,scl);
+        rect(food.x, food.y, scl,scl);
     }
     
  
