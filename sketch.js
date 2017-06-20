@@ -5,6 +5,8 @@ var canvasHeight = 200;
 var startSnakeX = 100;
 var startSnakeY = 100;
 var scl = 10;
+var debug = 1;
+
 
 
 
@@ -58,6 +60,13 @@ function keyPressed(){
     snake.dir(targetDir.x,targetDir.y);
 }
 
+function mousePressed(){
+    if(debug === 1)
+    {
+        snake.body.unshift(createVector(this.x,this.y))
+    }
+}
+
 function showBody(element, index,array) {
             fill(255);
             rect(element.x,element.y,scl,scl);
@@ -65,7 +74,6 @@ function showBody(element, index,array) {
 
 function Snake() {
     this.update = function() {
-        console.log(print(this.body.toString()))
         this.x = this.x + (this.xspeed*scl);
         this.y = this.y + (this.yspeed*scl);
         this.body.pop();
@@ -114,7 +122,7 @@ function Snake() {
         {
             this.ondeath();
         }
-        if(createVector(this.x,this.y) in this.body)
+        if(this.body.indexOf(createVector(this.x,this.y)) >= 0)
         {
             this.ondeath();
         }
@@ -138,6 +146,7 @@ function Snake() {
     this.body.push(createVector(this.x,this.y));
     this.length = 1;
     this.dir(1,0);
+
 }
 
 function Food() {
