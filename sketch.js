@@ -1,6 +1,5 @@
 var snake;
 var food;
-var speedmult = 1;
 var canvasWidth = 200;
 var canvasHeight = 200;
 var startSnakeX = 100;
@@ -38,22 +37,25 @@ function reset(){
 }
 
 function keyPressed(){
+    var targetDir;
     if (keyCode === UP_ARROW)
     {
-        snake.dir(0, -1);
+        targetDir = createVector(0, -1);
     }
     if (keyCode === DOWN_ARROW)
     {
-        snake.dir(0, 1);
+        targetDir = createVector(0, 1);
     }
     if (keyCode === LEFT_ARROW)
     {
-        snake.dir(-1, 0);
+        targetDir = createVector(-1, 0);
     }
     if (keyCode === RIGHT_ARROW)
     {
-        snake.dir(1, 0);
+        targetDir = createVector(1, 0);
     }
+    
+    snake.dir(targetDir.x,targetDir.y);
 }
 
 function showBody(element, index,array) {
@@ -85,10 +87,21 @@ function Snake() {
         this.body.forEach(showBody);        
     }
     
+    this.dir = function()
+    {
+        return createVector(this.xspeed,this.yspeed);
+    }
+    
+    this.dir = function(inputVector) 
+    {
+        this.xspeed = inputVector.x;
+        this.yspeed = inputVector.y;
+    }
+    
     this.dir = function(xi, yi)
     {
-        this.xspeed = xi*speedmult;
-        this.yspeed = yi*speedmult;
+        this.xspeed = xi;
+        this.yspeed = yi;
     }
     
     this.checkDeath = function()
@@ -98,6 +111,10 @@ function Snake() {
             this.ondeath();
         }
         if(this.y > canvasHeight - scl || this.y < 0)
+        {
+            this.ondeath();
+        }
+        if(createVector(this.x,this.y) in this.body)
         {
             this.ondeath();
         }
