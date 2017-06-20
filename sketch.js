@@ -145,13 +145,22 @@ function Food() {
     this.y;
     
     this.reset = function(){
-        this.x = floor(random()*(canvasWidth/scl)*scl);
-        this.y = floor(random()*(canvasHeight/scl)*scl);
+        this.x = this.spawnDimension(canvasWidth);
+        this.y = this.spawnDimension(canvasHeight);
     }
     
     this.show = function(){
         fill(0,100,100);
         rect(food.x, food.y, scl,scl);
+    }
+    
+    this.spawnDimension = function(maxCanvasDimension)
+    {
+        var minDim = scl;
+        var maxDim = maxCanvasDimension - scl;
+        var randomDim = maxDim - minDim
+        var randomScl = floor(random(randomDim) / scl);        
+        return (randomScl*scl) + minDim
     }
     
  
