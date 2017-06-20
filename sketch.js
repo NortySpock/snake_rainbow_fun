@@ -56,7 +56,8 @@ function keyPressed(){
     {
         targetDir = createVector(1, 0);
     }
-    
+    // print(targetDir.angleBetween(snake.dir()))
+    print(snake.dir())
     snake.dir(targetDir.x,targetDir.y);
 }
 
@@ -73,6 +74,7 @@ function showBody(element, index,array) {
         }
 
 function Snake() {
+    var xspeed, yspeed;
     this.update = function() {
         this.x = this.x + (this.xspeed*scl);
         this.y = this.y + (this.yspeed*scl);
