@@ -122,9 +122,16 @@ function Snake() {
         {
             this.ondeath();
         }
-        if(this.body.indexOf(createVector(this.x,this.y)) >= 0)
+
+        if(this.body.length > 1)
         {
-            this.ondeath();
+            for(var idx = 1; idx<this.body.length; idx++) //not including the head
+            {
+                if(createVector(this.x,this.y).equals(this.body[idx]))
+                {
+                    this.ondeath()
+                }
+            }
         }
     }
     
