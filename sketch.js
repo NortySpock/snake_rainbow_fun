@@ -1,3 +1,35 @@
+
+class Food 
+{
+    constructor()
+    {
+        this.x;
+        this.y;
+    }
+
+    reset()
+    {
+        this.x = this.spawnDimension(canvasWidth);
+        this.y = this.spawnDimension(canvasHeight);
+    }
+
+    show()
+    {
+        fill(0,100,100);
+        rect(food.x, food.y, scl,scl);
+    }
+
+    spawnDimension(maxCanvasDimension)
+    {
+        var minDim = scl;
+        var maxDim = maxCanvasDimension - scl;
+        var randomDim = maxDim - minDim
+        var randomScl = floor(random(randomDim) / scl);
+        return (randomScl*scl) + minDim
+    }
+}
+
+
 class Snake {
     constructor(positionVector, directionVector)
     {
@@ -159,33 +191,8 @@ function mousePressed(){
     }
 }
 
-function showBody(element, index,array) {
+function showBody(element, index,array) 
+{
             fill(255);
             rect(element.x,element.y,scl,scl);
-        }
-
-
-
-function Food() {
-    this.x;
-    this.y;
-
-    this.reset = function(){
-        this.x = this.spawnDimension(canvasWidth);
-        this.y = this.spawnDimension(canvasHeight);
-    }
-
-    this.show = function(){
-        fill(0,100,100);
-        rect(food.x, food.y, scl,scl);
-    }
-
-    this.spawnDimension = function(maxCanvasDimension)
-    {
-        var minDim = scl;
-        var maxDim = maxCanvasDimension - scl;
-        var randomDim = maxDim - minDim
-        var randomScl = floor(random(randomDim) / scl);
-        return (randomScl*scl) + minDim
-    }
 }
