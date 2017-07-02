@@ -1,3 +1,4 @@
+(function(){"use strict"})();
 
 class Food 
 {
@@ -180,7 +181,7 @@ function keyPressed(){
     {
         targetDir = createVector(1, 0);
     }
-
+    print(snake.dir())
     snake.dir(targetDir.x,targetDir.y);
 }
 
