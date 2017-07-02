@@ -1,3 +1,95 @@
+class Snake {
+    constructor(positionVector, directionVector)
+    {
+        this.x = positionVector.x;
+        this.y = positionVector.y;
+        this.body = [];
+        this.body.push(createVector(this.x,this.y));
+        this.length = 1;
+        this.xspeed = directionVector.x;
+        this.yspeed = directionVector.y;
+    }
+
+    update() {
+        this.x = this.x + (this.xspeed*scl);
+        this.y = this.y + (this.yspeed*scl);
+        this.body.pop();
+        this.body.unshift(createVector(this.x,this.y));
+    }
+
+    pos()
+    {
+        return createVector(this.x, this.y);
+    }
+
+    pos(xi,yi)
+    {
+        this.x = xi;
+        this.y = yi;
+    }
+
+    show()
+    {
+        this.body.forEach(showBody);
+    }
+
+    dir()
+    {
+        return createVector(this.xspeed,this.yspeed);
+    }
+
+    dir(inputVector)
+    {
+        this.xspeed = inputVector.x;
+        this.yspeed = inputVector.y;
+    }
+
+    dir(xi, yi)
+    {
+        this.xspeed = xi;
+        this.yspeed = yi;
+    }
+
+    checkDeath()
+    {
+        if(this.x > canvasWidth - scl || this.x < 0)
+        {
+            this.ondeath();
+        }
+        if(this.y > canvasHeight - scl || this.y < 0)
+        {
+            this.ondeath();
+        }
+
+        if(this.body.length > 1)
+        {
+            for(var idx = 1; idx<this.body.length; idx++) //not including the head
+            {
+                if(createVector(this.x,this.y).equals(this.body[idx]))
+                {
+                    this.ondeath()
+                }
+            }
+        }
+    }
+
+    ondeath()
+    {
+        frameRate(1);
+        fill(255,0,0);
+        ellipse(this.x, this.y, 100);
+        reset();
+    }
+
+    checkFood(posx,posy) {
+        return (dist(this.x,this.y, posx, posy) < scl);
+    }
+
+
+
+}
+
+
 var snake;
 var food;
 var canvasWidth = 200;
@@ -16,7 +108,7 @@ function setup() {
 
 function draw() {
     background(50);
-    
+
     snake.update();
     snake.checkDeath();
     snake.show();
@@ -25,15 +117,15 @@ function draw() {
         snake.body.unshift(createVector(food.x,food.y))
         food.reset();
     }
-    
+
     food.show();
 }
 
 function reset(){
       createCanvas(canvasWidth, canvasHeight);
-      
+
       frameRate(5)
-      snake = new Snake();
+      snake = new Snake(createVector(100,100),createVector(1,0));
       food = new Food();
       food.reset();
 }
@@ -56,8 +148,7 @@ function keyPressed(){
     {
         targetDir = createVector(1, 0);
     }
-    // print(targetDir.angleBetween(snake.dir()))
-    print(snake.dir())
+
     snake.dir(targetDir.x,targetDir.y);
 }
 
@@ -73,114 +164,28 @@ function showBody(element, index,array) {
             rect(element.x,element.y,scl,scl);
         }
 
-function Snake() {
-    var xspeed, yspeed;
-    this.update = function() {
-        this.x = this.x + (this.xspeed*scl);
-        this.y = this.y + (this.yspeed*scl);
-        this.body.pop();
-        this.body.unshift(createVector(this.x,this.y));        
-    }
 
-    this.pos = function()
-    {
-        return createVector(this.x, this.y);
-    }
-    
-    this.pos = function(xi,yi)
-    {
-        this.x = xi;
-        this.y = yi;
-    }
-    
-    this.show = function() {
-        this.body.forEach(showBody);        
-    }
-    
-    this.dir = function()
-    {
-        return createVector(this.xspeed,this.yspeed);
-    }
-    
-    this.dir = function(inputVector) 
-    {
-        this.xspeed = inputVector.x;
-        this.yspeed = inputVector.y;
-    }
-    
-    this.dir = function(xi, yi)
-    {
-        this.xspeed = xi;
-        this.yspeed = yi;
-    }
-    
-    this.checkDeath = function()
-    {
-        if(this.x > canvasWidth - scl || this.x < 0)
-        {
-            this.ondeath();
-        }
-        if(this.y > canvasHeight - scl || this.y < 0)
-        {
-            this.ondeath();
-        }
-
-        if(this.body.length > 1)
-        {
-            for(var idx = 1; idx<this.body.length; idx++) //not including the head
-            {
-                if(createVector(this.x,this.y).equals(this.body[idx]))
-                {
-                    this.ondeath()
-                }
-            }
-        }
-    }
-    
-    this.ondeath = function() 
-    {
-        frameRate(1);
-        fill(255,0,0);
-        ellipse(this.x, this.y, 100);        
-        reset();
-    }
-    
-    this.checkFood = function(posx,posy) {
-        return (dist(this.x,this.y, posx, posy) < scl);
-    }
-    
-    this.x = startSnakeX;
-    this.y = startSnakeY;
-    this.body = [];
-    this.body.push(createVector(this.x,this.y));
-    this.length = 1;
-    this.dir(1,0);
-
-}
 
 function Food() {
     this.x;
     this.y;
-    
+
     this.reset = function(){
         this.x = this.spawnDimension(canvasWidth);
         this.y = this.spawnDimension(canvasHeight);
     }
-    
+
     this.show = function(){
         fill(0,100,100);
         rect(food.x, food.y, scl,scl);
     }
-    
+
     this.spawnDimension = function(maxCanvasDimension)
     {
         var minDim = scl;
         var maxDim = maxCanvasDimension - scl;
         var randomDim = maxDim - minDim
-        var randomScl = floor(random(randomDim) / scl);        
+        var randomScl = floor(random(randomDim) / scl);
         return (randomScl*scl) + minDim
     }
-    
- 
 }
- 
