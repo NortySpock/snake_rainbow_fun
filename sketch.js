@@ -180,6 +180,10 @@ function keyPressed(){
     {
         targetDir = createVector(1, 0);
     }
+    if (keyCode === ENTER)
+    {
+        targetDir = createVector(0, 0);
+    }
 
     snake.dir(targetDir.x,targetDir.y);
 }
