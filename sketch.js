@@ -130,7 +130,7 @@ var canvasHeight = 200;
 var startSnakeX = 100;
 var startSnakeY = 100;
 var scl = 10;
-var debug = 1;
+var debug = 0;
 
 
 
@@ -181,7 +181,7 @@ function keyPressed(){
     {
         targetDir = createVector(1, 0);
     }
-    print(snake.dir())
+//    print(snake.dir())
     snake.dir(targetDir.x,targetDir.y);
 }
 
